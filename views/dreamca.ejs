@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dreamrecord</title>
+  <link href="/public/dream.css" rel="stylesheet">
+</head>
+
+<body id="calend" data-id="<%=id %>">
+  <header id="heade">
+    <span id="username">
+      <%=name %>의
+    </span>
+    <span id="drm">꿈</span>
+    <span id="wri">기록장</span>
+  </header>
+
+  <script>
+
+    var today = new Date();
+    var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var currentYear = thisMonth.getFullYear();
+    var currentMonth = thisMonth.getMonth();
+    var currentDate = thisMonth.getDate();
+
+  </script>
+
+  <div id="mainc">
+    <button type="button" class="but" onclick="a()">이전</button>
+    <span id="maincurrent">
+    </span>
+    <button type="button" class="but" onclick="b()">다음</button>
+  </div>
+
+  <script> //mainc에서 필요한 함수
+    var mainCurrent = document.getElementById('maincurrent');
+    function updateMainCurrent() {
+      currentYear = thisMonth.getFullYear();
+      currentMonth = thisMonth.getMonth();
+      currentDate = thisMonth.getDate();
+      mainCurrent.innerHTML = currentYear + '.' + (currentMonth + 1);
+    }
+    updateMainCurrent()
+
+    function a() {
+      thisMonth = new Date(currentYear, currentMonth - 1, 1);
+      updateMainCurrent();
+      rand();
+    }
+
+    function b() {
+      thisMonth = new Date(currentYear, currentMonth + 1, 1);
+      updateMainCurrent();
+      rand();
+    }
+
+  </script>
+
+  <div id="c_s">
+    <table id="calendar">
+      <tr>
+        <th class="day">월</th>
+        <th class="day">화</th>
+        <th class="day">수</th>
+        <th class="day">목</th>
+        <th class="day">금</th>
+        <th class="day">토</th>
+        <th class="day">일</th>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+      <tr>
+        <%for(let j=0;j<7;j++){%>
+          <td class="c_row"></td>
+          <%}%>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    var cE = document.getElementById('calend');
+    var id = cE.dataset.id;
+    var tdArray = [];
+    var tdElements = document.getElementsByTagName('td');
+    rand();
+    function rand() {
+      let dat = new Date(); //오늘변수 
+
+      // 이전 달의 마지막 날 날짜와 요일 구하기
+      for (var i = 0; i < 42; i++) {
+        tdArray.push(tdElements[i]);
+      }
+      var startDay = new Date(currentYear, currentMonth, 0);
+      var prevDate = startDay.getDate();
+      var prevDay = startDay.getDay();
+
+      // 이번 달의 마지막날 날짜와 요일 구하기
+      var endDay = new Date(currentYear, currentMonth + 1, 0);
+      var nextDate = endDay.getDate();
+      var nextDay = endDay.getDay();
+      let y = 0;
+      let datey = new Date();
+
+      //이전 달 일자 렌더링
+      for (let i = prevDate - prevDay + 1; i <= prevDate; i++) {
+        tdArray[y++].innerHTML = '<div class="days prevd">' + i + '</div>'
+      }
+
+      //선택한 현재 달 일자
+      for (let i = 1; i <= nextDate; i++) {
+        tdArray[y++].innerHTML = '<div class="days">' + i + '</div>';
+        datey.setDate(i);
+        datey.setMonth(currentMonth);
+        datey.setFullYear(currentYear);
+        // 데이터베이스 있는지 조회
+        var year = datey.getFullYear();
+        var month = String(datey.getMonth() + 1).padStart(2, '0');
+        var day = String(datey.getDate()).padStart(2, '0');
+        var dateString = `${year}-${month}-${day}`;
+        if (
+          dat.getFullYear() === datey.getFullYear() &&
+          dat.getMonth() === datey.getMonth() &&
+          dat.getDate() === datey.getDate()
+        ) tdArray[y - 1].innerHTML += '<form action="/dreamchat" method="GET"><button type="submit" id="plus">추가</button></form>';
+
+        loadImage(tdArray[y - 1], id, dateString,)
+      }
+      for (y; y < 42; y++) {
+        tdArray[y].innerHTML = '<div class="days"></div>';
+      }
+      tdArray[y - 1].setAttribute('data-date', dateString);
+      tdArray[y - 1].addEventListener('click', handleDateClick);
+    }
+
+    //이미지를 가져오는 fetch 함수
+    function loadImage(tdArra, id, dateString) {
+  fetch('/get-image', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ tdArra, id, dateString })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('이미지:', data.image);
+
+      let button = document.createElement("button");
+      let img = document.createElement("img");
+      let god = function() {
+        console.log("이미지 버튼 눌려짐");
+        window.location.href = `/dreams/${dateString}`;
+      };
+
+      button.type = "button";
+      button.onclick = god;
+
+      img.src = 'data:image/jpeg;base64,' + data.image;
+      img.className = "cimg";
+
+      button.appendChild(img);
+      tdArra.appendChild(button);
+
+      if (data.image.length > 0) {
+        let pp = document.querySelector("#plus");
+        pp.style.display = 'none';
+      }
+    })
+    .catch(error => {
+      console.error('오류:', error);
+    });
+}
+
+
+
+  </script>
+
+</body>
+
+</html>

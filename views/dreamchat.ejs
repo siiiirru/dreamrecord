@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dreamrecord</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="/public/dream.css" rel="stylesheet">
+</head>
+
+<body>
+    <header id="chathead">
+        <span id="username">
+            <%=name %>의
+        </span>
+        <span id="drm">꿈</span>
+        <span id="wri">기록장</span>
+    </header>
+    <button onclick="window.location.href='/calendar';" type="button" id="goback">캘린더로 돌아가기</button>
+    <div id="dchat">
+        <div class="chatting">
+            <div class="line">
+                <span class="chatbox">😊안녕하세요! 좋은 하루입니다. 오늘은 무슨 꿈을 꾸셨나요? 꿈을 해석하고 입력하신 내용으로 이미지를 만들어드릴게요. 결과를 확인하면 저장버튼이
+                    생성됩니다.(답변에 약 1분 내외의 시간이 걸립니다!)</span>
+            </div>
+        </div>
+        <div id="sendbox">
+            <textarea name="usersend" class="chatbox" id="input" rows="3" cols="50"></textarea>
+            <button type="submit" id="send">전송</button>
+        </div>
+    </div>
+
+    <script>
+        //유저의 채팅 표시
+        document.querySelector('#send').addEventListener('click', async function handleChatSend() {
+            let usersend = document.querySelector('#input').value; //유저가 보낸 메세지
+            var template = `<div class="line">
+            <span class="chatbox mine">${usersend}</span>
+            </div>`
+            document.querySelector('.chatting').insertAdjacentHTML('beforeend', template);
+            //인공지능 채팅 표시
+            var gptaResult = await gpta(usersend);
+            console.log(gptaResult);
+            var template1 = `<div class="line">
+            <span class="chatbox">🌜${(gptaResult.chat.content).replace(/\n/g, "<br>")}</span>
+            </div>`
+            document.querySelector('.chatting').insertAdjacentHTML('beforeend', template1)
+
+            var template = `<div class="line">
+            <span class="chatbox"><img src="${gptaResult.aimg.url}" width="400px"></span>
+            </div>`
+            document.querySelector('.chatting').insertAdjacentHTML('beforeend', template)
+            //저장버튼 추가 
+            var template = `<button type="button" onclick="function b()" id="send2" onclick="a()">저장</button>`
+            document.querySelector('#sendbox').insertAdjacentHTML('beforeend', template)
+            //꿈저장하기
+            document.querySelector('#send2').addEventListener('click', function a() {
+                let savecon = ((gptaResult.chat.content).replace(/\n/g, "<br>"));
+                let saveimg = gptaResult.aimg.url;
+                fetch('/chatsave', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ usersend, savecon, saveimg })
+                });
+            });
+            //채팅가져오기
+            async function gpta(usersend) {
+                try {
+                    const response = await fetch('/chatsend', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ usersend })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('서버 응답이 실패했습니다.');
+                    }
+
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('오류:', error);
+                    return null;
+                }
+            }
+        })
+
+        //꿈저장하기
+        let savecon = (gptaResult.chat.content);
+        let saveimg = gptaResult.aimg.url;
+        function a() {
+            fetch('/chatsave', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ usersend, savecon, saveimg })
+            });
+        }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
