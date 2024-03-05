@@ -1,0 +1,283 @@
+@font-face {
+    font-family: 'dungeunmo';
+    src: url('DungGeunMo.woff2') format('woff2')
+}
+
+body {
+    background: #000924 url("back2.png") center top /1440px 750px no-repeat;
+}
+
+#heade {
+    font-family: 'dungeunmo';
+    display: flex;
+    Justify-content: Center;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#chathead{
+    font-family: 'dungeunmo';
+    display: flex;
+    Justify-content: Center;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+#username {
+    font-size: 23px;
+    color: rgb(224, 129, 129);
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+#drm {
+    color: yellow;
+    font-size: 40px;
+}
+
+#wri {
+    margin-left: 10px;
+    margin-top: 10px;
+    color: white;
+}
+
+main {
+    background-color: rgb(199, 199, 199);
+    border-radius: 50px;
+    margin-left: 50px;
+    width: 90%;
+    Height: 500px;
+    display: flex;
+    Align-items: center;
+    opacity: 0.8;
+    flex-direction: column;
+}
+
+#login {
+    font-family: 'dungeunmo';
+    margin-top: 150px;
+}
+
+#sign_up {
+    font-family: 'dungeunmo';
+    margin-top: 150px;
+}
+
+#id {
+    margin-left: 20px;
+}
+
+#name {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+#password {
+    margin-left: 4px;
+    margin-top: 5px;
+}
+
+
+#sign {
+    margin-top: 5px;
+    margin-left: 80px;
+    margin-left: 220px;
+}
+
+#log {
+    margin-top: 5px;
+    margin-left: 235px;
+}
+
+#sig {
+    margin-top: 5px;
+    font-family: 'dungeunmo';
+    width: 100px;
+    height: 35px;
+    margin-left: 210px;
+}
+
+#mainc{
+    margin-top: 67px;
+    display: flex;
+    Justify-content : center;
+    font-family: 'dungeunmo';
+}
+
+#maincurrent{
+    font-size:30px;
+    color:aliceblue;
+}
+
+.but{
+    font-family: 'dungeunmo';
+    background-color: #666666;
+    margin: 0px 30px 0px 30px;
+}
+#c_s{
+    display: flex;
+    Justify-content : center;
+}
+#calendar{
+    margin-left: 20px;
+    margin-top: 40px;
+    color:rgb(173, 215, 252);
+font-size: 15px;
+text-align: center;
+border-collapse:collapse;
+}
+
+.day{
+    width: 100px;
+    height: 15px;
+    border-color: rgb(147, 138, 191);
+    border-style: dotted;
+    color:rgb(255, 255, 255);
+}
+
+.c_row{
+    width: 100px;
+    height: 70px;
+    border-style: dotted;
+    border-color: rgb(180, 191, 138);
+    color:rgb(255, 255, 255)
+}
+.days{
+    color:white;
+    margin:0px;
+    padding:0px;
+}
+
+.prevd{
+    color:#858585
+}
+
+#plus{
+    font-family: 'dungeunmo';
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #93f88f;
+    color:rgb(34, 34, 33);
+    width: 40px;
+    height: 25px;
+    margin:0px;
+    border-radius: 50px;
+}
+
+#dchat{
+    background-color: rgb(199, 199, 199, 0.7);
+    border-radius: 30px;
+    margin-left: 50px;
+    width: 90%;
+    Height: 520px;
+}
+
+.chatting{
+    margin-left:40px;
+    width: 94%;
+    Height: 430px;
+overflow-y:scroll;
+}
+
+.line{
+    margin-top:10px; 
+    display:flex;
+}
+
+.chatbox {
+    background:gainsboro;
+    border-radius: 10px;
+    opacity:1; 
+    padding:5px;
+    width:450px;
+}
+
+.mine{
+    margin-left:auto;
+}
+#sendbox{
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    Justify-content: Center;
+}
+#input{
+    width:500px;
+    height: 70px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+#send{
+    font-family: 'dungeunmo';
+    border-radius: 10px;
+}
+#send2{
+    font-family: 'dungeunmo';
+    border-radius: 10px;
+    background-color: deeppink;
+}
+#goback{
+    margin-left:70%;
+    margin-bottom: 10px;
+    font-family: 'dungeunmo';
+    background-color: #7b7b7b;
+}
+.cimg{
+    width:50px;
+}
+
+#dcha{
+    border-radius: 30px;
+    margin-left: 50px;
+    width: 90%;
+    Height: 520px;
+    display: inline-block;
+}
+#imgbox{
+    background: rgb(199, 199, 199, 0.7);
+    border-radius: 10px;
+    border-style: dotted;
+border-color:rgb(145, 246, 255);
+width: 560px;
+height: 560px;
+float: left;
+padding:30px;
+margin-right:30px;
+margin-bottom:30px;
+}
+#simg{
+    width:500px;
+}
+#low{
+    display:inline-block;
+}
+#namebox{
+    width:700px;
+    height: 100px;
+background: rgba(222, 222, 222, 0.7);
+border-style: dotted;
+border-color:rgb(78, 242, 149);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+#dreamname{
+    font-family: 'dungeunmo';
+    margin:10px;
+    font-size:25px;}
+#answer{
+    width:700px;
+    height: 430px;
+    background:  rgba(222, 222, 222, 0.7);
+    border-radius: 10px;
+    border-style: dotted;
+border-color:rgb(242, 78, 154);
+}
+#dreamcontent{
+    margin:10px;
+    font-size:18px;
+    white-space: pre-line;
+}
